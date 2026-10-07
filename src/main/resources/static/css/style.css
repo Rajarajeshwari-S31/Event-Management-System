@@ -1,0 +1,169 @@
+/* Event Management System - Custom Modern Styles */
+:root {
+    --ems-primary: #3b82f6;
+    --ems-primary-dark: #1d4ed8;
+    --ems-secondary: #64748b;
+    --ems-dark: #0f172a;
+    --ems-light-bg: #f8fafc;
+    --ems-card-bg: #ffffff;
+    --ems-border: #e2e8f0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--ems-light-bg);
+    color: #334155;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Navbar */
+.navbar-custom {
+    background: #0f172a !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    font-size: 1.35rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #93c5fd !important;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 70px 0 60px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Cards */
+.card-event {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid var(--ems-border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.card-event:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+.card-header-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+}
+
+/* Stats Card */
+.stat-card {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+/* Badges */
+.badge-category {
+    background-color: #e0e7ff;
+    color: #4338ca;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.badge-seats-available {
+    background-color: #ecfdf5;
+    color: #065f46;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #a7f3d0;
+}
+
+.badge-seats-full {
+    background-color: #fef2f2;
+    color: #991b1b;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #fecaca;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--ems-primary);
+    border-color: var(--ems-primary);
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 8px 18px;
+}
+
+.btn-primary:hover {
+    background-color: var(--ems-primary-dark);
+    border-color: var(--ems-primary-dark);
+}
+
+.btn-outline-primary {
+    color: var(--ems-primary);
+    border-color: var(--ems-primary);
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--ems-primary);
+    border-color: var(--ems-primary);
+}
+
+/* Filter Box */
+.filter-box {
+    background: #ffffff;
+    border: 1px solid var(--ems-border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+/* Footer */
+footer {
+    background: #0f172a;
+    color: #94a3b8;
+    padding: 30px 0;
+    margin-top: auto;
+    font-size: 0.9rem;
+}

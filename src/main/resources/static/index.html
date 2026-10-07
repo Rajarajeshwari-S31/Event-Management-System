@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPulse - Modern Event Management System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header / Navbar placeholder -->
+    <div id="navbar-placeholder"></div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section text-center">
+            <div class="container py-4">
+                <span class="badge bg-primary-subtle text-primary border border-primary px-3 py-2 rounded-pill mb-3">
+                    <i class="bi bi-stars me-1"></i> Discover, Register & Manage Events
+                </span>
+                <h1 class="display-4 fw-bold mb-3">Find & Book Your Next Unforgettable Event</h1>
+                <p class="lead text-light opacity-75 mx-auto mb-4" style="max-width: 650px;">
+                    From premier tech summits and design workshops to acoustic music festivals — reserve your seats with real-time capacity tracking.
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="events.html" class="btn btn-primary btn-lg px-4 shadow">
+                        <i class="bi bi-compass me-2"></i>Explore All Events
+                    </a>
+                    <a href="register.html" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-person-plus me-2"></i>Create Free Account
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Bar Section -->
+        <div class="container mt-n4" style="margin-top: -30px;">
+            <div class="filter-box shadow-sm">
+                <form id="quickSearchForm" class="row g-3 align-items-center" onsubmit="handleQuickSearch(event)">
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" id="quickTitle" class="form-control" placeholder="Search event by name or keyword...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="quickCategory" class="form-select bg-light">
+                            <option value="">All Categories</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Music">Music</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Business">Business</option>
+                            <option value="Gaming">Gaming</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-search me-1"></i> Search Events
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Featured Events Section -->
+        <section class="py-5">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="fw-bold mb-1">Featured Upcoming Events</h2>
+                        <p class="text-muted mb-0">Browse top picks and secure your passes before seats run out</p>
+                    </div>
+                    <a href="events.html" class="btn btn-outline-primary">
+                        View All <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+
+                <div id="eventsContainer" class="row g-4">
+                    <!-- Populated dynamically via JS -->
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading events...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platform Features -->
+        <section class="py-5 bg-white border-top">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h3 class="fw-bold">Why Choose EventPulse?</h3>
+                    <p class="text-muted">Built for attendees and event organizers alike</p>
+                </div>
+                <div class="row g-4 text-center">
+                    <div class="col-md-4">
+                        <div class="p-4 border rounded-3 h-100 bg-light">
+                            <i class="bi bi-ticket-detailed text-primary fs-1 mb-3"></i>
+                            <h5 class="fw-bold">Instant Registration</h5>
+                            <p class="text-muted mb-0">Register in one click with live seat availability counters and zero hassle.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 border rounded-3 h-100 bg-light">
+                            <i class="bi bi-calendar-check text-success fs-1 mb-3"></i>
+                            <h5 class="fw-bold">My Registrations</h5>
+                            <p class="text-muted mb-0">Manage all your booked tickets, view event venues, or cancel bookings anytime.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 border rounded-3 h-100 bg-light">
+                            <i class="bi bi-shield-check text-warning fs-1 mb-3"></i>
+                            <h5 class="fw-bold">Organizer & Admin Portal</h5>
+                            <p class="text-muted mb-0">Complete dashboard to monitor attendees, create new events, and manage capacity.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="mb-1 fw-semibold text-white">EventPulse - Full Stack Event Management System</p>
+            <p class="text-secondary small mb-0">Developed with Spring Boot 3, Spring Data JPA, MySQL, and Bootstrap 5</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadFeaturedEvents();
+        });
+
+        function handleQuickSearch(e) {
+            e.preventDefault();
+            const title = document.getElementById("quickTitle").value;
+            const category = document.getElementById("quickCategory").value;
+            window.location.href = `events.html?title=${encodeURIComponent(title)}&category=${encodeURIComponent(category)}`;
+        }
+
+        async function loadFeaturedEvents() {
+            const container = document.getElementById("eventsContainer");
+            try {
+                const response = await fetch(`${API_BASE}/api/events`);
+                const result = await response.json();
+
+                if (result.success && result.data && result.data.length > 0) {
+                    // Show up to 6 events
+                    const events = result.data.slice(0, 6);
+                    container.innerHTML = events.map(event => renderEventCard(event)).join("");
+                } else {
+                    container.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-calendar-x text-muted fs-1 mb-3"></i>
+                            <p class="text-muted">No events currently scheduled. Check back soon!</p>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <p class="text-danger">Failed to load events. Make sure the backend server is running.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderEventCard(event) {
+            const isFull = event.availableSeats <= 0;
+            const seatBadge = isFull 
+                ? `<span class="badge-seats-full"><i class="bi bi-x-circle me-1"></i>Sold Out</span>`
+                : `<span class="badge-seats-available"><i class="bi bi-check-circle me-1"></i>${event.availableSeats} Seats Left</span>`;
+
+            return `
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-event h-100 position-relative">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge-category">${event.category}</span>
+                                ${seatBadge}
+                            </div>
+                            <h5 class="card-title fw-bold text-dark mt-2 mb-2">${event.title}</h5>
+                            <p class="card-text text-muted small flex-grow-1">
+                                ${event.description ? (event.description.length > 110 ? event.description.substring(0, 110) + '...' : event.description) : 'No description provided.'}
+                            </p>
+                            <div class="border-top pt-3 mt-3 text-secondary small">
+                                <div class="mb-1"><i class="bi bi-calendar3 me-2 text-primary"></i><strong>Date:</strong> ${formatDate(event.date)}</div>
+                                <div class="text-truncate"><i class="bi bi-geo-alt me-2 text-danger"></i>${event.location}</div>
+                            </div>
+                            <div class="d-grid gap-2 pt-3">
+                                <a href="event-details.html?id=${event.id}" class="btn btn-outline-primary btn-sm">
+                                    View Details & Book <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details - EventPulse</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <!-- Header / Navbar placeholder -->
+    <div id="navbar-placeholder"></div>
+
+    <main class="py-5">
+        <div class="container">
+            <!-- Breadcrumb / Back button -->
+            <div class="mb-4">
+                <a href="events.html" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Events
+                </a>
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <div id="contentLoading" class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading event details...</span>
+                </div>
+            </div>
+
+            <div id="eventDetailsCard" class="row d-none">
+                <!-- Main Details -->
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm rounded-4 mb-4">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span id="eventCategoryBadge" class="badge-category">Category</span>
+                                <span id="eventSeatBadge" class="badge-seats-available">Seats</span>
+                            </div>
+
+                            <h1 id="eventTitle" class="fw-bold text-dark mb-3">Event Title</h1>
+
+                            <div class="row g-3 py-3 border-top border-bottom my-4 text-secondary">
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-3 me-3">
+                                            <i class="bi bi-calendar-event fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <div class="small text-muted fw-semibold">Date</div>
+                                            <div id="eventDate" class="fw-bold text-dark fs-6">Date TBA</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-danger bg-opacity-10 text-danger p-3 rounded-3 me-3">
+                                            <i class="bi bi-geo-alt fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <div class="small text-muted fw-semibold">Location / Venue</div>
+                                            <div id="eventLocation" class="fw-bold text-dark fs-6">Location TBA</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5 class="fw-bold text-dark mb-3">About This Event</h5>
+                            <p id="eventDescription" class="text-secondary leading-relaxed mb-4" style="line-height: 1.8;">
+                                Description text...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Registration Sidebar -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm rounded-4 sticky-top" style="top: 20px;">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-3">Reserve Your Spot</h5>
+                            
+                            <!-- Capacity & Seats Monitor -->
+                            <div class="bg-light p-3 rounded-3 border mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="small text-muted">Available Seats:</span>
+                                    <span id="availableSeatsCount" class="fw-bold text-success">0</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="small text-muted">Total Capacity:</span>
+                                    <span id="totalCapacityCount" class="fw-semibold text-dark">0</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div id="capacityProgressBar" class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 small text-muted">
+                                    <span id="bookedSeatsText">0 booked</span>
+                                    <span id="remainingSeatsText">0 remaining</span>
+                                </div>
+                            </div>
+
+                            <button id="registerBtn" class="btn btn-primary btn-lg w-100 py-3 mb-3 shadow-sm" onclick="registerForEvent()">
+                                <i class="bi bi-ticket-perforated-fill me-2"></i> Register Now
+                            </button>
+
+                            <div class="small text-muted text-center">
+                                <i class="bi bi-shield-check text-success me-1"></i> Instant confirmation with cancel guarantee
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="mb-0 text-secondary small">EventPulse - Event Management System</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script>
+        let currentEvent = null;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const eventId = params.get("id");
+
+            if (!eventId) {
+                showAlert("alertContainer", "No event ID provided.", "danger");
+                document.getElementById("contentLoading").classList.add("d-none");
+                return;
+            }
+
+            loadEventDetails(eventId);
+        });
+
+        async function loadEventDetails(id) {
+            try {
+                const response = await fetch(`${API_BASE}/api/events/${id}`);
+                const result = await response.json();
+
+                if (response.ok && result.success && result.data) {
+                    currentEvent = result.data;
+                    renderEventDetails(currentEvent);
+                } else {
+                    showAlert("alertContainer", "Event not found.", "danger");
+                }
+            } catch (err) {
+                showAlert("alertContainer", "Failed to connect to backend server.", "danger");
+            } finally {
+                document.getElementById("contentLoading").classList.add("d-none");
+            }
+        }
+
+        function renderEventDetails(event) {
+            document.getElementById("eventTitle").textContent = event.title;
+            document.getElementById("eventCategoryBadge").textContent = event.category;
+            document.getElementById("eventDate").textContent = formatDate(event.date);
+            document.getElementById("eventLocation").textContent = event.location;
+            document.getElementById("eventDescription").textContent = event.description || "No full description provided.";
+
+            document.getElementById("availableSeatsCount").textContent = event.availableSeats;
+            document.getElementById("totalCapacityCount").textContent = event.capacity;
+
+            const isFull = event.availableSeats <= 0;
+            const seatBadge = document.getElementById("eventSeatBadge");
+            const regBtn = document.getElementById("registerBtn");
+
+            const bookedCount = event.capacity - event.availableSeats;
+            const percentBooked = Math.min(100, Math.round((bookedCount / event.capacity) * 100));
+
+            document.getElementById("capacityProgressBar").style.width = `${percentBooked}%`;
+            document.getElementById("bookedSeatsText").textContent = `${bookedCount} booked`;
+            document.getElementById("remainingSeatsText").textContent = `${event.availableSeats} remaining`;
+
+            if (isFull) {
+                seatBadge.className = "badge-seats-full";
+                seatBadge.innerHTML = `<i class="bi bi-x-circle me-1"></i> Fully Booked`;
+                regBtn.disabled = true;
+                regBtn.className = "btn btn-secondary btn-lg w-100 py-3 mb-3";
+                regBtn.innerHTML = `<i class="bi bi-slash-circle me-2"></i> Sold Out / Capacity Full`;
+            } else {
+                seatBadge.className = "badge-seats-available";
+                seatBadge.innerHTML = `<i class="bi bi-check-circle me-1"></i> ${event.availableSeats} Seats Available`;
+                regBtn.disabled = false;
+                regBtn.className = "btn btn-primary btn-lg w-100 py-3 mb-3 shadow-sm";
+                regBtn.innerHTML = `<i class="bi bi-ticket-perforated-fill me-2"></i> Register Now`;
+            }
+
+            document.getElementById("eventDetailsCard").classList.remove("d-none");
+        }
+
+        async function registerForEvent() {
+            if (!currentEvent) return;
+
+            const user = getCurrentUser();
+            if (!user) {
+                alert("Please log in to register for this event.");
+                window.location.href = `login.html`;
+                return;
+            }
+
+            if (currentEvent.availableSeats <= 0) {
+                showAlert("alertContainer", "Registration closed: event is at full capacity.", "warning");
+                return;
+            }
+
+            const regBtn = document.getElementById("registerBtn");
+            regBtn.disabled = true;
+            regBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Processing...`;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/registrations`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userId: user.id, eventId: currentEvent.id })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    showAlert("alertContainer", "🎉 Registration successful! You have reserved your seat.", "success");
+                    // Reload event details to update seat counts
+                    loadEventDetails(currentEvent.id);
+                } else {
+                    showAlert("alertContainer", result.message || "Registration failed.", "danger");
+                    regBtn.disabled = false;
+                    regBtn.innerHTML = `<i class="bi bi-ticket-perforated-fill me-2"></i> Register Now`;
+                }
+            } catch (err) {
+                showAlert("alertContainer", "Server error while registering.", "danger");
+                regBtn.disabled = false;
+                regBtn.innerHTML = `<i class="bi bi-ticket-perforated-fill me-2"></i> Register Now`;
+            }
+        }
+    </script>
+</body>
+</html>
