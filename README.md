@@ -74,7 +74,6 @@ The application utilizes **MySQL 8.0** with **Hibernate automatic schema generat
 Event-Management-System/
 ├── pom.xml                                   # Maven dependencies & build plugins
 ├── mvnw / mvnw.cmd / .mvn/                   # Maven Wrapper scripts
-├── run.bat                                   # 1-Click Windows execution script
 ├── README.md                                 # Project documentation
 ├── .gitignore                                # Excludes target/, IDE, logs, and secrets
 └── src/
@@ -137,10 +136,7 @@ Event-Management-System/
    CREATE DATABASE IF NOT EXISTS event_management_db;
    ```
 
-### Option 1: 1-Click Batch Runner (Windows)
-Double-click `run.bat` in the project root directory. It verifies MySQL and starts the server.
-
-### Option 2: Using Maven Wrapper (All Platforms)
+### Option 1: Using Maven Wrapper (Recommended)
 Open a terminal in the project root directory:
 
 **Windows (PowerShell):**
@@ -153,7 +149,7 @@ Open a terminal in the project root directory:
 ./mvnw spring-boot:run
 ```
 
-### Option 3: Running the Standalone JAR
+### Option 2: Running the Standalone JAR
 ```powershell
 java -jar target/event-management-system-1.0.0.jar
 ```
